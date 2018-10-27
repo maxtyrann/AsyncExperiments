@@ -7,6 +7,7 @@ namespace AsyncExperiments.Threaded
 {
     /// <summary>
     /// DISCLAIMER: Some of this code is taken from Pluralsight course, TPL Async Module 1.
+    /// TODO: Refactor and separate all scenarios so it doesn't need commenting or uncommenting code
     /// </summary>
     class Program
     {
