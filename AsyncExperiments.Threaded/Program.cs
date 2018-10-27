@@ -31,8 +31,7 @@ namespace AsyncExperiments.Threaded
             });
 
             Console.WriteLine("Continuing on main thread");
-
-            Thread.Sleep(10000);
+            Console.ReadLine();
         }
     }
 }
