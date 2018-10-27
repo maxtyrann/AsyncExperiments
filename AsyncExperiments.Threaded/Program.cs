@@ -13,7 +13,9 @@ namespace AsyncExperiments.Threaded
         static void Main(string[] args)
         {
             // MultiThreadedTest();
-            AsyncTest();
+            // AsyncTest();
+
+            EapTest();
 
             Console.ReadLine();
         }
@@ -56,6 +58,23 @@ namespace AsyncExperiments.Threaded
             });
 
             Console.WriteLine("Continuing on main thread");
+        }
+
+        private static void EapTest()
+        {
+            var webClient = new WebClient();
+            Console.WriteLine("Starting work");
+
+            webClient.DownloadStringCompleted += WebClient_DownloadStringCompleted;
+            webClient.DownloadStringAsync(new Uri("https://warfarehistorynetwork.com/daily/military-history/trafalgar-in-reverse-the-battle-of-jutland/"));
+
+            Console.WriteLine("Continuing on main thread");
+        }
+
+        private static void WebClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            Console.WriteLine("WebClient_DownloadStringCompleted is called as soon as we get a result");
+            Console.WriteLine(e.Result);
         }
     }
 }
