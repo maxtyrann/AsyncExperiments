@@ -12,6 +12,14 @@ namespace AsyncExperiments.Threaded
     {
         static void Main(string[] args)
         {
+            // MultiThreadedTest();
+            AsyncTest();
+
+            Console.ReadLine();
+        }
+
+        private static void MultiThreadedTest()
+        {
             var webClient = new WebClient();
             Console.WriteLine("Starting work");
 
@@ -31,7 +39,23 @@ namespace AsyncExperiments.Threaded
             });
 
             Console.WriteLine("Continuing on main thread");
-            Console.ReadLine();
+        }
+
+        private static void AsyncTest()
+        {
+            var webClient = new WebClient();
+            Console.WriteLine("Starting work");
+
+            // This time we're using DownloadStringTaskAsync method and this time it's async
+            Task<string> getTask = webClient.DownloadStringTaskAsync("https://warfarehistorynetwork.com/daily/military-history/trafalgar-in-reverse-the-battle-of-jutland/");
+
+            Console.WriteLine("Setting up continuation");
+            getTask.ContinueWith(t =>
+            {
+                Console.WriteLine(t.Result);
+            });
+
+            Console.WriteLine("Continuing on main thread");
         }
     }
 }
