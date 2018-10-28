@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncExperiments.Threaded", "AsyncExperiments.Threaded\AsyncExperiments.Threaded.csproj", "{C925B688-FFEA-429F-B929-7AC7F58D6E60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncExperiments.TapAndEapSamples", "AsyncExperiments.Threaded\AsyncExperiments.TapAndEapSamples.csproj", "{C925B688-FFEA-429F-B929-7AC7F58D6E60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
