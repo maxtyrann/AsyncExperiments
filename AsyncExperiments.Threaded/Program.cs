@@ -56,6 +56,8 @@ namespace AsyncExperiments.TapAndEapSamples
             Console.WriteLine("11. UsingComposition_WhenAll_OneFail - Composition scenario, one of sub tasks will fail");
             Console.WriteLine("12. UsingComposition_WhenAll_AllFail - Composition scenario, both sub tasks will fail");
             Console.WriteLine("13. UsingComposition_ContinueWhenAll_OneFail - Composition scenario with ContinueWhenAll, one sub tasks will fail but we can still track the other");
+            Console.WriteLine("14. ConsumeCustomTask - Create a custom task with TaskCompletionSource<T> and experiment with success and error scenarios");
+            Console.WriteLine("Hit e/E for exit");
             Console.WriteLine("");
 
             var result = Console.ReadLine();
@@ -101,6 +103,13 @@ namespace AsyncExperiments.TapAndEapSamples
                 case "13":
                     UsingComposition_ContinueWhenAll_OneFail();
                     break;
+                case "14":
+                    ConsumeCustomTask(false);
+                    break;
+                case "e":
+                case "E":
+                    autoResetEvent.Set();
+                    break;
                 default:
                     UsingTaskFactory();
                     break;
@@ -113,10 +122,12 @@ namespace AsyncExperiments.TapAndEapSamples
             var menuAnswer = Console.ReadLine();
             switch (menuAnswer)
             {
+                case "y":
                 case "Y":
                     Console.Clear();
                     Menu();
                     break;
+                case "n":
                 case "N":
                     Console.WriteLine("Process will exit after Enter");
                     autoResetEvent.Set();
@@ -484,6 +495,39 @@ namespace AsyncExperiments.TapAndEapSamples
                 });
 
             Console.WriteLine("Continuing on main thread");
+        }
+
+        private static Task<int> CustomTask(bool createException)
+        {
+            TaskCompletionSource<int> taskCompletionSource = new TaskCompletionSource<int>();
+
+            if (!createException)
+            {
+                taskCompletionSource.SetResult(5000);
+            }
+            else {
+                taskCompletionSource.SetException(new Exception("Simulate an exception"));
+            }
+
+            return taskCompletionSource.Task;
+        }
+
+        private static void ConsumeCustomTask(bool createException)
+        {
+            CustomTask(createException).ContinueWith(t =>
+            {
+                if (t.IsFaulted)
+                {
+                    Console.WriteLine("An error occured ...");
+                    Console.WriteLine(t.Exception);
+                }
+                else {
+                    Console.WriteLine("Our custom task is successful");
+                    Console.WriteLine(t.Result);
+                }
+
+                ReturnToMenu();
+            });
         }
     }
 }
